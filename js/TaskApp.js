@@ -17,13 +17,14 @@ var TaskApp = function TaskApp () {
 var TaskListUI = function TaskListUI () {
     var taskList;
 
-    var  addTask = function addTask (task) {
-	var taskId = taskList.add(task);
-        displayTask(task, taskId);
-    },
+    var  that = {
+	addTask: function addTask (task) {
+	    var taskId = taskList.add(task);
+            that.displayTask(task, taskId);
+	},
 
-    displayTask = function displayTask (task, taskId) {
-        $('#task-list').append(
+	displayTask: function displayTask (task, taskId) {
+            $('#task-list').append(
                   [
                       '<li id="', taskId, '">',
                       '<a href="#">',
@@ -36,38 +37,44 @@ var TaskListUI = function TaskListUI () {
                       '</a>',
                     '</li>'
                   ].join('')
-        );
-        $('#' + taskId + ' .delete').on( "click", function () {
-            removeTask($(this).parent('li'));
-        });
-        $('#task-list').listview('refresh');
-    },
-
-    removeTask = function removeTask (taskItem) {
-        var taskId = taskItem.attr("id");
-                
-        if (taskList.remove(taskId)) {
-            taskItem.remove();
+            );
+            $('#' + taskId + ' .delete').on( "click", function () {
+		that.removeTask($(this).parent('li'));
+            });
             $('#task-list').listview('refresh');
-        }
-    },
+	},
 
-    loadTaskList(newTaskList) {
-	taskList = newTaskList;
+	removeTask: function removeTask (taskItem) {
+            var taskId = taskItem.attr("id");
+                
+            if (taskList.remove(taskId)) {
+		taskItem.remove();
+		$('#task-list').listview('refresh');
+            }
+	},
+
+	loadTaskList: function loadTaskList (newTaskList) {
+	    taskList = newTaskList;
           
-	$("form :input").on("keypress", function(e) {
-            return e.keyCode != 13;
-	});
+	    $("form :input").on("keypress", function(e) {
+		return e.keyCode != 13;
+	    });
 
-	taskList.forEach(displayTask);
+	    $('#task-page-title').html(taskList.getName());
 
-	$( '#add' ).on("click", function () {
-            var taskname = $('#taskname').val(),
-            taskdetails = $('#taskdetails').val();
-            addTask({ name: taskname, details: taskdetails });
-            $( '#taskname' ).val('');
-            $( '#taskdetails' ).val('');
-	});
+	    taskList.forEach(that.displayTask);
+
+	    $( '#add' ).on("click", function () {
+		var taskname = $('#taskname').val(),
+		taskdetails = $('#taskdetails').val();
+		that.addTask({ name: taskname, details: taskdetails });
+		$( '#taskname' ).val('');
+		$( '#taskdetails' ).val('');
+	    });
+	}
     }
-});
+
+    return that;
+
+};
         

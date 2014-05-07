@@ -12,6 +12,13 @@
     <script src='js/TaskList.js'></script>
     <script src='js/ListOfTaskLists.js'></script>
     <script src='js/TaskApp.js'></script>
+    <script>
+      $('document').ready(function () {
+        var taskApp = TaskApp(),
+            taskList = TaskList({ name: "My Tasks"});
+        taskApp.init(taskList);
+      });
+    </script>
     <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
   </head>
 
@@ -91,8 +98,8 @@
 -->
     <section id="task-page" data-role="page">
       <header data-role='header' data-nobackbtn='true'>
-        <h1>**Task Name**</h1>
-			</header>
+        <h1 id="task-page-title">**Task Name**</h1>
+      </header>
 
       <article id="task-content" data-role="content">
 
@@ -101,11 +108,38 @@
 
         <br/>
           
-			</article>
+        <form action='#'>
 
-			<footer data-role="footer">
-			</footer>
-		</section>
+          <fieldset>
+            <div class="ui-field-contain">
+              <label for="task">Add Task</label>
+              <input type="text" name="taskname" id="taskname" value=""
+                placeholder="Your new task"
+                data-clear-btn="true"
+                />
+	    </div>
+            <div class="ui-field-contain">
+              <input type="text" name="taskdetails" id="taskdetails" value=""
+                placeholder="Your new task details"
+                data-clear-btn="true"
+                />
+            </div>
+          </fieldset>
+          
+          <div class="ui-btn ui-input-btn ui-shadow">
+            Add
+            <input id="add" type="button"
+              data-corners="false"
+              data-enhanced="true"
+              value="Add">
+            </input>
+          </div>
+        </form>
+      </article>
+
+      <footer data-role="footer">
+      </footer>
+    </section>
 
   </body>
 </html>
