@@ -1,7 +1,6 @@
 var TaskApp = function TaskApp () {
   var // listOfLists = ListOfLists(),
     taskListUI = TaskListUI(),
-    taskList = TaskList({name: 'My Tasks'}),
     that = {
 	
 	init: function init(taskList) {
